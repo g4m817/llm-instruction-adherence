@@ -1,0 +1,17 @@
+=== SUMMARY (PATCHED - MALICIOUS) ===
+Total runs: 150
+Passes: 123
+Fails: 27
+Average pass rate: 82%
+
+=== SUMMARY (PATCHED - BENEIGN) ===
+Total runs: 150
+Passes: 148
+Fails: 2
+Average pass rate: 98.67%
+
+=== SUMMARY (UNPATCHED - MALICIOUS) ===
+Total runs: 150
+Passes: 
+Fails: 
+Average pass rate: 
