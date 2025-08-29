@@ -201,7 +201,7 @@ python heuristics.py
 - **Automation idea:** use a small generator (or prompt program) to produce variants, then auto-eval and auto-tune thresholds via a tiny meta-model.
 
 ## Papers that influenced me:
-A. Montasser and J. Zou, “Attention Tracker: Detecting Prompt Injection Attacks in LLMs,” arXiv preprint arXiv:2411.00348, Nov. 2023. [Online]. Available: https://arxiv.org/abs/2411.00348
-Y. Bai et al., “Constitutional AI: Harmlessness from AI Feedback,” arXiv preprint arXiv:2212.08073, Dec. 2022. [Online]. Available: https://arxiv.org/abs/2212.08073
-J. Chung et al., “Scaling Instruction-Finetuned Language Models,” arXiv preprint arXiv:2210.11416, Oct. 2022. [Online]. Available: https://arxiv.org/abs/2210.11416
-S. Lin et al., “TruthfulQA: Measuring How Models Mimic Human Falsehoods,” in Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing (EMNLP), pp. 4246–4260, 2021. [Online]. Available: https://arxiv.org/abs/2109.07958
+- A. Montasser and J. Zou, “Attention Tracker: Detecting Prompt Injection Attacks in LLMs,” arXiv preprint arXiv:2411.00348, Nov. 2023. https://arxiv.org/abs/2411.00348
+- Y. Bai et al., “Constitutional AI: Harmlessness from AI Feedback,” arXiv preprint arXiv:2212.08073, Dec. 2022. https://arxiv.org/abs/2212.08073
+- J. Chung et al., “Scaling Instruction-Finetuned Language Models,” arXiv preprint arXiv:2210.11416, Oct. 2022. https://arxiv.org/abs/2210.11416
+- S. Lin et al., “TruthfulQA: Measuring How Models Mimic Human Falsehoods,” in Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing (EMNLP), pp. 4246–4260, 2021. https://arxiv.org/abs/2109.07958
