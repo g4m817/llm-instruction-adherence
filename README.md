@@ -1,10 +1,10 @@
 # Early-Tripwire for System-Instruction Adherence
 ## Note From the Author
-**This repo was heavily inspired by *Attention Tracker* (Montasser & Zou, 2023). You could think of it as a simplified, hobbyist spin: it uses some different  embedding-based features, a narrower scope (“don’t say X” instruction adherence), and swaps their detection approach for a lightweight scoring + gating heuristic. It’s absolutely not novel research, and I probably goofed up parts of the testing. That said, I wanted to share it as a weekend project for others curious about instruction adherence tripwires at inference time.**
-
+> **This repo was heavily inspired by *Attention Tracker* (Montasser & Zou, 2023). You could think of it as a simplified, hobbyist spin: it uses some different  embedding-based features, a narrower scope (“don’t say X” instruction adherence), and swaps their detection approach for a lightweight scoring + gating heuristic. It’s absolutely not novel research, and I probably goofed up parts of the testing. That said, I wanted to share it as a weekend project for others curious about instruction adherence tripwires at inference time.**
+>
 > **TL;DR**: This repo experiments with a super-lightweight, inference-time heuristic that watches a single forward pass (attentions + hidden states) and *tries* to block/flag responses that drift away from a very strict **system instruction**. It’s **not** likely to ever be a useful mitigation at scale.
-
-Lastly, I don’t have practical ML experience; this was research I did a couple years ago, shelved, and finally shoved onto GitHub. If you try it and find issues, I’d genuinely love to hear it—open an issue and tell me I’m wrong!
+>
+> Lastly, I don’t have practical ML experience; this was research I did a couple years ago, shelved, and finally shoved onto GitHub. If you try it and find issues, I’d genuinely love to hear it—open an issue and tell me I’m wrong!
 
 ---
 
