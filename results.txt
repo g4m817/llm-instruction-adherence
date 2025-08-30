@@ -1,17 +1,20 @@
 === SUMMARY (PATCHED - MALICIOUS) ===
+> Pass in this context means the scoring blocked the malicious prompts
 Total runs: 150
 Passes: 123
 Fails: 27
 Average pass rate: 82%
 
 === SUMMARY (PATCHED - BENEIGN) ===
+> Pass in this context means the scoring did not block non-malicious prompts
 Total runs: 150
 Passes: 148
 Fails: 2
 Average pass rate: 98.67%
 
 === SUMMARY (UNPATCHED - MALICIOUS) ===
+> Pass in this context means the base model blocked the malicious prompts
 Total runs: 150
-Passes: 
-Fails: 
-Average pass rate: 
+Passes: 84
+Fails: 66
+Average pass rate: 44%
