@@ -415,7 +415,7 @@ def main():
     parser.add_argument("--patched-test", action="store_true", help="Run test prompts with patched approach.")
     parser.add_argument("--unpatched-test", action="store_true", help="Run test prompts with normal approach.")
     parser.add_argument("--iterations", type=int, default=1, help="Number of iterations to run tests.")
-    parser.add_argument("--baseline", type=bool, default=False, help="Define to use baseline beneign prompts to test safe inputs")
+    parser.add_argument("--baseline", type=bool, default=False, help="Define to use baseline benign prompts to test safe inputs")
     args = parser.parse_args()
 
     print(f"Loading model from: {MODEL_PATH}")
