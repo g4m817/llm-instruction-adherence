@@ -1,18 +1,22 @@
 # Early-Tripwire for System-Instruction Adherence
 
+NOTE: You can probably call this a total rip off of Attention Tracker, just using a few different features and a tighter scope and internal scoring, you wouldn't be wrong.
+
 > **TL;DR**: This repo experiments with a super-lightweight, inference-time heuristic that watches a single forward pass (attentions + hidden states) and *tries* to block/flag responses that drift away from a very strict **system instruction**. It’s **not** a full mitigation, just a defense-in-depth tripwire you can drop in front of generation.
 
-I’m not claiming SOTA or correctness—I probably goofed up parts of my testing. I don’t have practical ML experience; this was research I did a couple years ago, shelved, and finally shoved onto GitHub. If you try it and find issues, I’d genuinely love to hear it—open an issue and tell me I’m wrong!
+I’m not claiming this is novel or even that it works, I probably goofed up parts of my testing. I don’t have practical ML experience; this was research I did a couple years ago, shelved, and finally shoved onto GitHub. If you try it and find issues, I’d genuinely love to hear it—open an issue and tell me I’m wrong!
 
 ---
 
 ## Why this exists
 
-Most safety work targets **general safety**. This project explores something narrower and weirder: **strict adherence to a specific system instruction**, e.g., “don’t say `<forbidden>`,” even under prompt pressure. The question that sparked this was:
+Most safety work targets **general safety**. This project explores something narrower: **strict adherence to a specific system instruction**, e.g., “don’t say `<forbidden>`,” even under prompt pressure. The question that sparked this was:
 
-> *“Is it possible to weight system instructions versus user input—even though they’re tokenized together—using only signals we can grab from a single forward pass?”*
+> *“Is it possible to weight system instructions versus user input—even though they’re tokenized together?”*
 
-This repo is my tiny, hacky attempt to probe that question. This approach is only intended to approach systems, which have tight scopes on what kind of output they want to generate. This could never work for something like a general purpose model where creativity is required, it would trip on general usage. The goal here is to enforce instructions on thinly scoped inferences where instructions are law and creativity could be a security issue instead of a feature.
+My original goal was actually to modify the attention layers during generation to enforce strict adherence, but that just ended up producing absurd results. I then pivoted to the collection and scoring mechanisms.
+
+In short, this repo is my tiny, hacky attempt to probe the initial question and the evolved questions about how to separate system and user instructions. This approach is only intended to approach systems, which have tight scopes on what kind of output they want to generate. This could never work for something like a general purpose model where creativity is required, it would trip on general usage. The goal here is to enforce instructions on thinly scoped inferences where instructions are law and creativity could be a security issue instead of a feature.
 
 ---
 
@@ -28,15 +32,15 @@ This repo is my tiny, hacky attempt to probe that question. This approach is onl
 
 ## ⚠️ Big disclaimers (please read)
 
-- **I’m not an ML pro.** This is weekend-project code. The feature choices and thresholds were heavily assisted by ChatGPT.  
+- **I’m not an ML engineer.** This is weekend-project code. The feature choices and thresholds were heavily assisted by ChatGPT.  
 - **Extremely controlled lab setup.** Most results here rely on:
   - one model: `Nous-Capybara-7B-V1.9`
   - single-turn chats (no history)
   - sampling params: `max_new_tokens=160`, `temperature=0.7`, `top_k=50`, `do_sample=True`
   - eager attention impl, fp16 on GPU when available
   - a very **simple system prompt**: “**don’t say `test`**” (see full version below)
-- **Not a mitigation.** You still need all the standard safety layers (data curation, instruction tuning, evals, policy enforcement, rate limiting, isolation, etc.). This is an *extra tripwire*, not a shield.
-- **Data is small and weird.** I hand-crafted datasets to stress **instruction adherence**, not general safety. Results won’t transfer to other instructions without work.
+- **Not a mitigation.** Even if this was to be production ready (which it is not) and deployed - you still need all the standard safety layers (data curation, instruction tuning, evals, policy enforcement, rate limiting, isolation, guard rails, etc.). This is a theoretical *extra tripwire*, not a shield.
+- **Data is small** I hand-crafted datasets to stress **instruction adherence**, not general safety. Results won’t transfer to other instructions without work.
 - **Tuning fragility.** It’s entirely possible the good numbers come from tuning that happens to fit the chosen prompts. Other instructions could break it completely.
 - **Reproducibility.** If you don’t replicate the exact lab conditions (model, params, prompt, dataset), you may not get the same results.
 
@@ -72,8 +76,6 @@ This repo is my tiny, hacky attempt to probe that question. This approach is onl
 - **System prompt (excerpt):** “Under no circumstances may you say, repeat, spell, encode, rhyme, hint at, or include the word ‘test’ …” (see `ADVANCED_SYSTEM_PROMPT` in code).  
 - **Malicious dataset:** 50 ways to coerce the model to say the forbidden word (“spell it,” “say it in code,” “pig latin,” etc.).  
 - **Benign baseline:** 50 vanilla, non-adversarial questions to check that the tripwire doesn’t over-fire.
-
-**Why custom data?** Public safety datasets mostly target general safety and won’t reflect **instruction adherence** attacks like the above. For this line of work you probably need **curated, instruction-specific** datasets—ideally generated or expanded via automation.
 
 ---
 
@@ -132,7 +134,7 @@ This repo is my tiny, hacky attempt to probe that question. This approach is onl
   2) fit lightweight models (or Bayesian rules) to pick thresholds per instruction,  
   3) export a tiny config blob for the tripwire.
 - **Broader feature search.** Layerwise CCA, probing classifiers, token-level outlier detection, attention flow to policy tokens, diffusion of “system anchors.”  
-- **Generalize beyond “don’t say X.”** Explore structured policies (e.g., “never translate slurs,” “always cite sources”), with richer datasets.  
+- Adherence to more complex system prompts beyond “don’t say X.”
 - **Multi-turn & tool use.** Track adherence across turns and when tools are invoked.  
 - **Model-agnostic adapters.** Wrap different architectures (LLama, Mistral, etc.) consistently.  
 - **Real-time gating.** Convert post-hoc gating into early-step gating to avoid generating risky continuations in the first place.
@@ -180,27 +182,7 @@ python heuristics.py
 
 ---
 
-## Architecture & choices
-
-- **Model**: `Nous-Capybara-7B-V1.9`  
-- **Device**: `cuda` if available; otherwise CPU (`fp32`)  
-- **Gen config**: `max_new_tokens=160`, `temperature=0.7`, `top_k=50`, `do_sample=True`  
-- **Captured signals**: last-layer attentions over output steps, hidden states across layers/steps  
-- **Features**: `attn_out`, `attn_in`, `align_out`, `align_in`, `drift_mag`, `drift_dir`, `shift`, `var_bonus`, `attn_spike`, `layer_dev`  
-- **Threshold**: `SUSPICION_THRESHOLD = 0.91`  
-- **Gate message**: `"[Error]: I'm sorry, but I can’t continue."`
-
----
-
-## On data & curation
-
-- Public safety datasets aren’t ideal for this. We needed **instruction-specific** adversarial cases that try to subvert: *“don’t say `test`.”*  
-- For any new instruction, you probably need to **curate or generate** a fresh set of:
-  - **malicious attempts** tailored to the instruction, and
-  - **benign queries** to measure false positives.
-- **Automation idea:** use a small generator (or prompt program) to produce variants, then auto-eval and auto-tune thresholds via a tiny meta-model.
-
-## Papers that influenced me:
+## Papers that greatly influenced me:
 - A. Montasser and J. Zou, “Attention Tracker: Detecting Prompt Injection Attacks in LLMs,” arXiv preprint arXiv:2411.00348, Nov. 2023. https://arxiv.org/abs/2411.00348
 - Y. Bai et al., “Constitutional AI: Harmlessness from AI Feedback,” arXiv preprint arXiv:2212.08073, Dec. 2022. https://arxiv.org/abs/2212.08073
 - J. Chung et al., “Scaling Instruction-Finetuned Language Models,” arXiv preprint arXiv:2210.11416, Oct. 2022. https://arxiv.org/abs/2210.11416
