@@ -26,8 +26,6 @@ In short, this repo is my tiny, hacky attempt to probe the initial question and 
 - **Compute post-hoc features.** After generation, it computes a handful of simple features (alignment, drift, spikes, etc.) that *might* indicate the output is straying from the system instruction.  
 - **Score and gate.** If the heuristic score crosses a threshold, it swaps the model output with a short refusal string. Otherwise, it returns the model’s text.
 
-**Key novelty:** It aims at **system-instruction strictness**, not broad safety categories. Think of it as an **early detection tripwire** you can plug in at inference time—not a replacement for robust mitigations.
-
 ---
 
 ## ⚠️ Big disclaimers (please read)
