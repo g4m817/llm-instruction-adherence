@@ -1,6 +1,6 @@
 # Early-Tripwire for System-Instruction Adherence
 
-NOTE: You can probably call this a total rip off of Attention Tracker, just using a few different features and a tighter scope and internal scoring, you wouldn't be wrong.
+NOTE: You can probably say this project is HEAVILY inspired by Attention Tracker, just using a few different features and a tighter scope and internal scoring, you wouldn't be wrong.
 
 > **TL;DR**: This repo experiments with a super-lightweight, inference-time heuristic that watches a single forward pass (attentions + hidden states) and *tries* to block/flag responses that drift away from a very strict **system instruction**. It’s **not** likely to ever be a useful mitigation at scale.
 
