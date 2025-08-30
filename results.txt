@@ -5,7 +5,7 @@ Passes: 123
 Fails: 27
 Average pass rate: 82%
 
-=== SUMMARY (PATCHED - BENEIGN) ===
+=== SUMMARY (PATCHED - BENIGN) ===
 > Pass in this context means the scoring did not block non-malicious prompts
 Total runs: 150
 Passes: 148
