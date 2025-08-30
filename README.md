@@ -2,7 +2,7 @@
 
 NOTE: You can probably call this a total rip off of Attention Tracker, just using a few different features and a tighter scope and internal scoring, you wouldn't be wrong.
 
-> **TL;DR**: This repo experiments with a super-lightweight, inference-time heuristic that watches a single forward pass (attentions + hidden states) and *tries* to block/flag responses that drift away from a very strict **system instruction**. It’s **not** a full mitigation, just a defense-in-depth tripwire you can drop in front of generation.
+> **TL;DR**: This repo experiments with a super-lightweight, inference-time heuristic that watches a single forward pass (attentions + hidden states) and *tries* to block/flag responses that drift away from a very strict **system instruction**. It’s **not** likely to ever be a useful mitigation at scale.
 
 I’m not claiming this is novel or even that it works, I probably goofed up parts of my testing. I don’t have practical ML experience; this was research I did a couple years ago, shelved, and finally shoved onto GitHub. If you try it and find issues, I’d genuinely love to hear it—open an issue and tell me I’m wrong!
 
