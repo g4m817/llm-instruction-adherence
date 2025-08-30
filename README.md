@@ -12,7 +12,7 @@ Most safety work targets **general safety**. This project explores something nar
 
 > *“Is it possible to weight system instructions versus user input—even though they’re tokenized together—using only signals we can grab from a single forward pass?”*
 
-This repo is my tiny, hacky attempt to probe that question.
+This repo is my tiny, hacky attempt to probe that question. This approach is only intended to approach systems, which have tight scopes on what kind of output they want to generate. This could never work for something like a general purpose model where creativity is required, it would trip on general usage. The goal here is to enforce instructions on thinly scoped inferences where instructions are law and creativity could be a security issue instead of a feature.
 
 ---
 
