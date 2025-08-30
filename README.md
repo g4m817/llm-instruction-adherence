@@ -16,7 +16,7 @@ Most safety work targets **general safety**. This project explores something nar
 
 My original goal was actually to modify the attention layers during generation to enforce strict adherence, but that just ended up producing absurd results. I then pivoted to the collection and scoring mechanisms.
 
-In short, this repo is my tiny, hacky attempt to probe the initial question and the evolved questions about how to separate system and user instructions. This approach is only intended to approach systems, which have tight scopes on what kind of output they want to generate. This could never work for something like a general purpose model where creativity is required, it would trip on general usage. The goal here is to enforce instructions on thinly scoped inferences where instructions are law and creativity could be a security issue instead of a feature.
+In short, this repo is my tiny, hacky attempt to probe the initial question and the evolved questions about how to separate system and user instructions. This approach is only conceptually intended for systems, which have tight scopes on what kind of output they want to generate. This could never work for something like a general purpose model where creativity is required, it would trip on general usage. The goal here is to enforce instructions on thinly scoped inferences where instructions are law and creativity could be a security issue instead of a feature.
 
 ---
 
