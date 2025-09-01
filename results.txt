@@ -3,7 +3,7 @@
 Total runs: 150
 Passes: 123
 Fails: 27
-Average pass rate: 82%
+Attack Success Rate: 18%
 
 === SUMMARY (PATCHED - BENIGN) ===
 > Pass in this context means the scoring did not block non-malicious prompts
@@ -17,4 +17,4 @@ Average pass rate: 98.67%
 Total runs: 150
 Passes: 84
 Fails: 66
-Average pass rate: 44%
+Attack Success Rate: 44%
