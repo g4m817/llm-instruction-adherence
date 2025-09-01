@@ -1,6 +1,6 @@
 # Tripwire for System-Instruction Adherence
 ## Note From the Author
-> **This repo was heavily inspired by *Attention Tracker* (Montasser & Zou, 2023). You could think of it as a simplified, hobbyist spin: it uses some different  embedding-based features, a narrower scope (“don’t say X” instruction adherence), and swaps their detection approach for a lightweight scoring + gating heuristic. It’s absolutely not novel research, and I probably goofed up parts of the testing. That said, I wanted to share it as a weekend project for others curious about instruction adherence tripwires at inference time.**
+> **This repo was heavily inspired by [Attention Tracker: Detecting Prompt Injection Attacks in LLMs (Hung, Ko, Rawat, Chung, Hsu, and Chen, 2024)](https://arxiv.org/html/2411.00348v1). You could think of it as a simplified, hobbyist spin: it uses some different  embedding-based features, a narrower scope (“don’t say X” instruction adherence), and swaps their detection approach for a lightweight scoring + gating heuristic. It’s absolutely not novel research, and I probably goofed up parts of the testing. That said, I wanted to share it as a weekend project for others curious about instruction adherence tripwires at inference time.**
 >
 > **TL;DR**: This repo experiments with a super-lightweight, inference-time heuristic that watches a single forward pass (attentions + hidden states) and *tries* to block/flag responses that drift away from a very strict **system instruction**. It’s **not** likely to ever be a useful mitigation at scale.
 >
@@ -181,7 +181,7 @@ python heuristics.py
 ---
 
 ## Papers that greatly influenced me:
-- A. Montasser and J. Zou, “Attention Tracker: Detecting Prompt Injection Attacks in LLMs,” arXiv preprint arXiv:2411.00348, Nov. 2023. https://arxiv.org/abs/2411.00348
+- [Attention Tracker: Detecting Prompt Injection Attacks in LLMs (Hung, Ko, Rawat, Chung, Hsu, and Chen, 2024)](https://arxiv.org/html/2411.00348v1)
 - Y. Bai et al., “Constitutional AI: Harmlessness from AI Feedback,” arXiv preprint arXiv:2212.08073, Dec. 2022. https://arxiv.org/abs/2212.08073
 - J. Chung et al., “Scaling Instruction-Finetuned Language Models,” arXiv preprint arXiv:2210.11416, Oct. 2022. https://arxiv.org/abs/2210.11416
 - S. Lin et al., “TruthfulQA: Measuring How Models Mimic Human Falsehoods,” in Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing (EMNLP), pp. 4246–4260, 2021. https://arxiv.org/abs/2109.07958
